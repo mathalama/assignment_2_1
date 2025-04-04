@@ -9,32 +9,35 @@ class DoublyLinkedList<T> {
 
         Node(T data) {
             this.data = data;
+            this.prev = null;
+            this.next = null;
         }
     }
 
-    private Node<T> head, tail; // Head and tail references
+    private Node<T> head; // Head references
 
     // Adds a new node at the beginning of the list
     public void addFirst(T data) {
         Node<T> newNode = new Node<>(data);
-        if (head == null) {
-            head = tail = newNode;
-        } else {
+        if (head != null) {
             newNode.next = head;
             head.prev = newNode;
-            head = newNode;
         }
+        head = newNode;
     }
 
     // Adds a new node at the end of the list
     public void add(T data) {
         Node<T> newNode = new Node<>(data);
-        if (tail == null) {
-            head = tail = newNode;
+        if (head == null) {
+            head = newNode;
         } else {
-            tail.next = newNode;
-            newNode.prev = tail;
-            tail = newNode;
+            Node<T> current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.prev = current;
         }
     }
 
@@ -42,7 +45,7 @@ class DoublyLinkedList<T> {
     public void remove(T data) {
         Node<T> current = head;
         while (current != null) {
-            if (current.data.equals(data)) {
+            if (data == null ? current.data == null : current.data.equals(data)) {
                 if (current.prev != null) {
                     current.prev.next = current.next;
                 } else {
@@ -50,10 +53,8 @@ class DoublyLinkedList<T> {
                 }
                 if (current.next != null) {
                     current.next.prev = current.prev;
-                } else {
-                    tail = current.prev;
                 }
-                return;
+                return; // Remove only the first occurrence
             }
             current = current.next;
         }
@@ -63,7 +64,7 @@ class DoublyLinkedList<T> {
     public boolean contains(T data) {
         Node<T> current = head;
         while (current != null) {
-            if (current.data.equals(data)) {
+            if (data == null ? current.data == null : current.data.equals(data)) {
                 return true;
             }
             current = current.next;
@@ -72,7 +73,7 @@ class DoublyLinkedList<T> {
     }
 
     // Prints the elements of the list
-    public void printList() {
+    public void display() {
         Node<T> current = head;
         while (current != null) {
             System.out.print(current.data + " <-> ");
@@ -83,7 +84,9 @@ class DoublyLinkedList<T> {
 
     // Reverses the order of the linked list
     public void reverse() {
-        Node<T> current = head, temp = null;
+        if (head == null || head.next == null) return; // Empty or single-node list
+        Node<T> current = head;
+        Node<T> temp = null;
         while (current != null) {
             temp = current.prev;
             current.prev = current.next;
@@ -108,15 +111,29 @@ class DoublyLinkedList<T> {
 
     public static void main(String[] args) {
         DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+        System.out.println("Testing a doubly-linked list");
+
+        // Тест 1: Вставка в начало (addFirst)
+        System.out.println("\nTest 1: Insertion at the beginning");
+        list.addFirst(2);
         list.addFirst(1);
-        list.add(2);
+        System.out.println("After adding 2, then 1 to the beginning:");
+        list.display();
+
+        // Тест 2: Разворот списка (reverse)
+        System.out.println("\nTest 2: Unfolding the list");
         list.add(3);
-        list.printList();
+        list.add(4);
+        System.out.println("Before turning around (list: 1, 2, 3, 4):");
+        list.display();
         list.reverse();
-        list.printList();
-        System.out.println("Middle Element: " + list.findMiddle());
-        list.remove(2);
-        list.printList();
-        System.out.println("Contains 3: " + list.contains(3));
+        System.out.println("After turning around:");
+        list.display();
+
+        // Тест 3: Поиск среднего элемента (findMiddle)
+        System.out.println("\nTest 3: Finding the middle element");
+        System.out.println("The list: ");
+        list.display();
+        System.out.println("Middle element: " + list.findMiddle());
     }
 }

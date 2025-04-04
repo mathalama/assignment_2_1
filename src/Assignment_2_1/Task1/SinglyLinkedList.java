@@ -5,11 +5,11 @@ public class SinglyLinkedList<T> {
 
     // Nested static class representing a node in the list
     static class Node<T> {
-        int data; // Node data
+        T data; // Node data
         Node<T> next; // Reference to the next node
 
         // Node constructor
-        Node(int data) {
+        Node(T data) {
             this.data = data;
             this.next = null;
         }
@@ -17,9 +17,16 @@ public class SinglyLinkedList<T> {
 
     private Node<T> head; // Head of the list
 
+    // Method to add an element to the beginning of the list
+    public void addFirst(T data) {
+        Node<T> newNode = new Node<>(data);
+        newNode.next = head;
+        head = newNode;
+    }
+
     // Method to add an element to the end of the list
-    public void add(int data) {
-        Node<T> newNode = new Node(data);
+    public void add(T data) {
+        Node<T> newNode = new Node<>(data);
         if (head == null) {
             head = newNode;
             return;
@@ -31,28 +38,21 @@ public class SinglyLinkedList<T> {
         temp.next = newNode;
     }
 
-    // Method to add an element to the beginning of the list
-    public void addFirst(int data) {
-        Node<T> newNode = new Node(data);
-        newNode.next = head;
-        head = newNode;
-    }
-
     // Method to remove an element by value
-    public void remove(int data) {
+    public void remove(T data) {
         if (head == null) {
             System.out.println("The list is empty");
             return;
         }
 
-        if (head.data == data) {
+        if (head.data != null && head.data.equals(data)) {
             head = head.next;
             return;
         }
 
         Node<T> current = head;
         while (current.next != null) {
-            if (current.next.data == data) {
+            if (current.next.data != null && current.next.data.equals(data)) {
                 current.next = current.next.next;
                 return;
             }
@@ -86,10 +86,10 @@ public class SinglyLinkedList<T> {
     }
 
     // Method to search for an element by value
-    public boolean search(int data) {
+    public boolean search(T data) {
         Node<T> temp = head;
         while (temp != null) {
-            if (temp.data == data) {
+            if (temp.data != null && temp.data.equals(data)) {
                 System.out.println("Found element: " + temp.data);
                 return true;
             }
@@ -115,10 +115,10 @@ public class SinglyLinkedList<T> {
     }
 
     // Method to get an element by index
-    public int get(int index) {
+    public T get(int index) {
         if (index < 0 || head == null) {
             System.out.println("Index: " + index);
-            return -1; // Return -1 in case of error
+            return null; // Return null in case of error
         }
 
         Node<T> current = head;
@@ -132,7 +132,7 @@ public class SinglyLinkedList<T> {
             currentIndex++;
         }
         System.out.println("Index too large: " + index);
-        return -1;
+        return null;
     }
 
     // Method to get the length of the list
@@ -149,29 +149,38 @@ public class SinglyLinkedList<T> {
     // Main method for testing
     public static void main(String[] args) {
         SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        System.out.println("Empty list size: " + list.length());
+        list.display();
+
+        System.out.println("\nAdding 10, 20, 30 to our list...");
         list.add(10);
         list.add(20);
         list.add(30);
         list.display();
-        System.out.println();
+        System.out.println("Size: " + list.length());
 
+        System.out.println("\nRemoving 20 from our list...");
         list.remove(20);
-        list.search(30);
-        list.search(0);
         list.display();
-        System.out.println();
+        System.out.println("Size after removing 20: " + list.length());
 
-        list.addFirst(0);
-        list.search(0);
+
+        System.out.printf("\nAdding 5 to the first turn on the list...");
+        list.addFirst(5);
         list.display();
-        System.out.println();
+        System.out.println("Element at index 0: " + list.get(0));
 
-        list.get(0);
-        list.get(3);
-        System.out.println();
+        System.out.println("\nSearch for 10: " + list.search(10));
+        System.out.println("Search for 99: " + list.search(99) + "\n");
+
+        try {
+            list.get(10);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
 
         list.clear();
         list.display();
-        System.out.println();
+        System.out.println("Size after clear: " + list.length());
     }
 }
