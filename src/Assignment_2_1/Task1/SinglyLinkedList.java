@@ -25,7 +25,7 @@ public class SinglyLinkedList<T> {
     }
 
     // Method to add an element to the end of the list
-    public void add(T data) {
+    public void addLast(T data) {
         Node<T> newNode = new Node<>(data);
         if (head == null) {
             head = newNode;
@@ -58,31 +58,6 @@ public class SinglyLinkedList<T> {
             }
             current = current.next;
         }
-    }
-
-    // Method to remove an element by index
-    public void removeAtIndex(int index) {
-        if (head == null || index < 0) {
-            System.out.println("Invalid index or empty list");
-            return;
-        }
-        if (index == 0) {
-            head = head.next;
-            return;
-        }
-
-        Node<T> current = head;
-        int i = 0;
-        while (i < index - 1 && current.next != null) {
-            current = current.next;
-            i++;
-        }
-
-        if (current.next == null) {
-            System.out.println("Index too large");
-            return;
-        }
-        current.next = current.next.next;
     }
 
     // Method to search for an element by value
@@ -153,9 +128,9 @@ public class SinglyLinkedList<T> {
         list.display();
 
         System.out.println("\nAdding 10, 20, 30 to our list...");
-        list.add(10);
-        list.add(20);
-        list.add(30);
+        list.addLast(10);
+        list.addLast(20);
+        list.addLast(30);
         list.display();
         System.out.println("Size: " + list.length());
 
@@ -165,7 +140,7 @@ public class SinglyLinkedList<T> {
         System.out.println("Size after removing 20: " + list.length());
 
 
-        System.out.printf("\nAdding 5 to the first turn on the list...");
+        System.out.println("\nAdding 5 to the first turn on the list...");
         list.addFirst(5);
         list.display();
         System.out.println("Element at index 0: " + list.get(0));

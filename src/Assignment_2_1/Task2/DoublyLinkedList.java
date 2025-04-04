@@ -27,7 +27,7 @@ class DoublyLinkedList<T> {
     }
 
     // Adds a new node at the end of the list
-    public void add(T data) {
+    public void addLast(T data) {
         Node<T> newNode = new Node<>(data);
         if (head == null) {
             head = newNode;
@@ -113,24 +113,22 @@ class DoublyLinkedList<T> {
         DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
         System.out.println("Testing a doubly-linked list");
 
-        // Тест 1: Вставка в начало (addFirst)
         System.out.println("\nTest 1: Insertion at the beginning");
         list.addFirst(2);
         list.addFirst(1);
         System.out.println("After adding 2, then 1 to the beginning:");
         list.display();
 
-        // Тест 2: Разворот списка (reverse)
         System.out.println("\nTest 2: Unfolding the list");
-        list.add(3);
-        list.add(4);
+        list.addLast(3);
+        list.addLast(4);
         System.out.println("Before turning around (list: 1, 2, 3, 4):");
         list.display();
         list.reverse();
         System.out.println("After turning around:");
         list.display();
 
-        // Тест 3: Поиск среднего элемента (findMiddle)
+
         System.out.println("\nTest 3: Finding the middle element");
         System.out.println("The list: ");
         list.display();
